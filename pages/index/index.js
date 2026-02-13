@@ -43,13 +43,22 @@ Page({
 	onLoad: function (options) {
 		const that = this
 		myRequest.getData().then(res => {
+
+    console.log('API返回数据:', res);
+		console.log('res.data:', res.data);
+		console.log('hotRecommends:', res.data?.hotRecommends);
+		console.log('hotRecommends.list:', res.data?.hotRecommends?.list);
+		
+		if (res.data?.hotRecommends?.list) {
+			console.log('hotRecommends.list[0]:', res.data.hotRecommends.list[0]);
+		}
 			const {guess,hotRecommends} = res.data
 			that.setData({
 				showitem: true,
-				guess: guess.list.slice(0, 3),
-				xiaoshuocontent: hotRecommends.list[0].list,
-				xiangshengcontent: hotRecommends.list[2].list,
-				tuokocontent: hotRecommends.list[4].list
+				guess: guess?.list?.slice(0, 3) || [],
+			  xiaoshuocontent: hotRecommends?.list?.[0]?.list || [],
+		  	xiangshengcontent: hotRecommends?.list?.[2]?.list || [],
+			  tuokocontent: hotRecommends?.list?.[4]?.list || []
 			})
 		}).catch(err => {
 			console.log('error :>> ', err);

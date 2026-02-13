@@ -1,5 +1,5 @@
 // 定义全局常量baseUrl用来存储前缀
-const baseURL = 'http://mobile.ximalaya.com/mobile/discovery/v3/recommend/hotAndGuess?code=43_310000_3100&device=android&version=5.4.45';
+const baseURL = 'https://mobile.ximalaya.com/mobile/discovery/v3/recommend/hotAndGuess?code=43_310000_3100&device=android&version=5.4.45';
 
 /**
  * 使用Promise对wx.request api进行封装
