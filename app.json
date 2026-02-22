@@ -16,6 +16,7 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
+    "custom": true,
     "color": "#cdcdcd",
     "selectedColor": "#ff520f",
     "list": [
@@ -46,5 +47,6 @@
     ]
   },
   "debug": true,
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "enableShareTimeline": true
 }

@@ -1,105 +1,118 @@
 <!-- pages/user/user.wxml -->
+<!-- 修改点 1：增加外层容器，动态绑定主题类名 -->
+<view class="page-wrapper theme-{{theme}}">
+
+<!-- 未登录界面 -->
 <block wx:if="{{!login}}">
-	<!-- logo -->
-	<view class="hmly-logo">
-		<image class="hmly-logo-img" src="/image/logo.png" mode="widthFix"></image>
-	</view>
-	<!-- 登录按钮 -->
-	<view class="hmly-login-button">
-		<!-- 在本小程序中只实现了微信登录 -->
-		<view class="hmly-wechat-login">
-			<button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-				<text class="icon-message"></text> 微信登录
-			</button>
-		</view>
-		<view class="hmly-phone-login" bindtap="phoneLogin">
-			<button>手机号登录</button>
-		</view>
-	</view>
-</block>
-<!-- 已经登录显示界面 -->
-<block wx:else>
-	<view class="hmly-body" style="height:{{phoneHeight}}px">
-		<!-- 头像昵称签到部分 -->
-		<view class="hmly-top-bar">
-			<!-- 头像昵称 -->
-			<view class="hmly-user-img">
-				<view class="hmly-avatar-nickname">
-					<view class="hmly-avatar">
-						<image class="hmly-avatar-img" src="{{avatarUrl}}"></image>
-					</view>
-					<view class="hmly-nickname">
-						<text class="#">{{nickName}}</text>
-						<!-- vip勋章 -->
-						<text class="icon-vip" style="margin-left:30rpx"></text>
-					</view>
-				</view>
-				<view class="hmly-kefu"><text class="icon-service"></text>客服服务</view>
-			</view>
-			<!-- 签到 -->
-			<view class="hmly-qian-dao">
-				<!-- 签到涉及canvas所以暂时搁置 -->
-				<view class="hmly-qian-text">
-					<text class="icon-dateTable text-gray"></text>
-					<text style="margin-left:20rpx">签到</text>
-				</view>
-				<view class="hmly-icon_">
-					<text class="icon-right text-gray"></text>
-				</view>
-			</view>
-		</view>
-		<!-- 选项卡部分 -->
-		<view class="hmly-chioce">
-			<!-- 选项卡item -->
-			<view class="hmly-choice-item" bindtap="openSwitch">
-				<view class="">
-					<text class="icon-time text-gray"></text>
-					<text style="margin-left:20rpx">定时关闭</text>
-				</view>
-				<text class="icon-right text-gray"></text>
-			</view>
-			<view class="hmly-choice-item">
-				<!-- 
-					
-					因为切换为夜间模式需要使用自定义的tarbar，
-				  而这个小程序是一个初级学习项目，所以此功能暂时搁置 
-	
-				-->
-				<view class="">
-					<text class="icon-tip text-gray"></text>
-					<text style="margin-left:20rpx">夜间模式</text>
-				</view>
-				<switch></switch>
-			</view>
-			<view class="hmly-choice-item">
-				<!-- 意见反馈需要使用button的open-type属性 此处没有设置-->
-				<view class="">
-					<text class="icon-write text-gray"></text>
-					<text style="margin-left:20rpx">意见反馈</text>
-				</view>
-				<text class="icon-right text-gray"></text>
-			</view>
-			<view class="hmly-choice-item" bindtap="gotoLogin">
-				<view class="">
-					<text class="icon-changeCount text-gray"></text>
-					<text style="margin-left:20rpx">切换账号</text>
-				</view>
-				<text class="icon-right text-gray"></text>
-			</view>
-		</view>
-	</view>
+  <view class="hmly-logo" style="text-align: center;">
+    <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" style="padding:0; width:160rpx; height:160rpx; border-radius:50%; background:none;">
+      <image class="hmly-logo-img" src="{{avatarUrl ? avatarUrl : '/image/logo.png'}}" style="width:100%; height:100%; border-radius:50%;"></image>
+    </button>
+    <!-- 修改点 2：文字颜色使用变量（通过样式类名控制，见下方说明） -->
+    <view class="text-gray" style="font-size: 24rpx; margin-top: 10rpx;">点击上方图标获取微信头像</view>
+  </view>
+  
+  <view class="hmly-login-button">
+    <form bindsubmit="onSubmitLogin">
+      <!-- 修改点 3：输入框背景颜色由 #f5f5f5 改为变量 var(--bg-secondary) -->
+      <view style="margin: 0 40rpx 40rpx 40rpx; background: var(--bg-secondary); border-radius: 50rpx; padding: 10rpx 40rpx;">
+        <input type="nickname" name="nickname" placeholder="点击此处获取微信昵称" style="height: 80rpx; line-height: 80rpx; text-align: center; font-size: 32rpx; color: var(--text-main);"/>
+      </view>
+
+      <view class="hmly-wechat-login">
+        <button form-type="submit">
+          <text class="icon-message"></text> 确认微信登录
+        </button>
+      </view>
+    </form>
+    
+    <view class="hmly-phone-login" bindtap="phoneLogin">
+      <button>手机号登录</button>
+    </view>
+  </view>
 </block>
 
-<!-- 定时关闭部分 -->
-<block wx:if="{{show}}">
-	<view class="hmly-switch">
-		<scroll-view class="hmly-scroll-wrapper" scroll-y scroll-with-animation="true" catchtouchmove="preventTouchMove">
-			<view class="hmly-switch-item" wx:for="{{timeout}}" wx:key="{{index}}" bindtap="chooseTimeOut" data-activeIndex="{{index}}">
-				<view>{{item.text}}</view>
-				<view class="hmly-active" wx:if="{{index == activeIndex}}"></view>
-			</view>
-		</scroll-view>
-		<view class="hmly-close" bindtap="close">关闭</view>
-	</view>
-	<view class="hmly-cover"></view>
+<!-- 已经登录显示界面 -->
+<block wx:else>
+  <!-- 修改点 4：背景色使用变量控制 -->
+  <view class="hmly-body" style="height:{{phoneHeight}}px; background: var(--bg-color);">
+    <view class="hmly-top-bar">
+      <view class="hmly-user-img">
+        <view class="hmly-avatar-nickname">
+          <view class="hmly-avatar">
+            <button open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" style="padding:0; margin:0; width:100%; height:100%; background:none; border:none;">
+              <image class="hmly-avatar-img" src="{{avatarUrl}}" style="width:100%; height:100%; border-radius: 50%;"></image>
+            </button>
+          </view>
+          <view class="hmly-nickname">
+            <!-- 修改点 5：昵称颜色使用变量 -->
+            <text style="color: var(--text-main);">{{nickName}}</text>
+            <text class="icon-vip" style="margin-left:30rpx"></text>
+          </view>
+        </view>
+        <view class="hmly-kefu"><text class="icon-service"></text>客服服务</view>
+      </view>
+      
+      <view class="hmly-qian-dao">
+        <view class="hmly-qian-text">
+          <text class="icon-dateTable text-gray"></text>
+          <text style="margin-left:20rpx; color: var(--text-main);">签到</text>
+        </view>
+        <view class="hmly-icon_">
+          <text class="icon-right text-gray"></text>
+        </view>
+      </view>
+    </view>
+
+    <view class="hmly-chioce">
+      <view class="hmly-choice-item" bindtap="openSwitch">
+        <view class="">
+          <text class="icon-time text-gray"></text>
+          <text style="margin-left:20rpx; color: var(--text-main);">定时关闭</text>
+        </view>
+        <text class="icon-right text-gray"></text>
+      </view>
+
+      <!-- 修改点 6：核心逻辑 - 夜间模式开关绑定 -->
+      <view class="hmly-choice-item">
+        <view class="">
+          <text class="icon-tip text-gray"></text>
+          <text style="margin-left:20rpx; color: var(--text-main);">夜间模式</text>
+        </view>
+        <!-- checked 根据 theme 决定，bindchange 触发逻辑 -->
+        <switch checked="{{theme === 'dark'}}" bindchange="toggleTheme" color="#ff520f"></switch>
+      </view>
+
+      <view class="hmly-choice-item">
+        <view class="">
+          <text class="icon-write text-gray"></text>
+          <text style="margin-left:20rpx; color: var(--text-main);">意见反馈</text>
+        </view>
+        <text class="icon-right text-gray"></text>
+      </view>
+      <view class="hmly-choice-item" bindtap="gotoLogin">
+        <view class="">
+          <text class="icon-changeCount text-gray"></text>
+          <text style="margin-left:20rpx; color: var(--text-main);">切换账号</text>
+        </view>
+        <text class="icon-right text-gray"></text>
+      </view>
+    </view>
+  </view>
 </block>
+
+<!-- 定时关闭弹窗部分 -->
+<block wx:if="{{show}}">
+  <!-- 修改点 7：弹窗背景也需要适配主题 -->
+  <view class="hmly-switch" style="background: var(--bg-color);">
+    <scroll-view class="hmly-scroll-wrapper" scroll-y scroll-with-animation="true" catchtouchmove="preventTouchMove">
+      <view class="hmly-switch-item" wx:for="{{timeout}}" wx:key="index" bindtap="chooseTimeOut" data-activeIndex="{{index}}" style="border-bottom: 1rpx solid var(--border-color);">
+        <view style="color: var(--text-main);">{{item.text}}</view>
+        <view class="hmly-active" wx:if="{{index == activeIndex}}"></view>
+      </view>
+    </scroll-view>
+    <view class="hmly-close" bindtap="close" style="color: var(--text-main); border-top: 1rpx solid var(--border-color);">关闭</view>
+  </view>
+  <view class="hmly-cover"></view>
+</block>
+</view>

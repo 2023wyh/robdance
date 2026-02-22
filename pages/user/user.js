@@ -1,7 +1,10 @@
+// pages/user/user.js
 const app = getApp()
-let userInfo = app.globalData.userInfo;
+
 Page({
 	data: {
+		// 【新增】主题字段，默认从全局获取
+		theme: 'light', 
 		timeout: [
 			{ text: "不开启" },
 			{ text: "播放当前声音关闭" },
@@ -15,12 +18,19 @@ Page({
 		activeIndex: 0,
 		login: false,
 		avatarUrl: "",
-		nickName: ""
+		nickName: "",
+		phoneHeight: 0,
+		show: false // 确保 show 也在 data 中初始化
 	},
 
 	onLoad() {
 		const that = this;
-		//获得设备信息
+		// 【新增】初始化页面主题
+		this.setData({
+			theme: app.globalData.theme || 'light'
+		});
+
+		// 获得设备信息
 		wx.getSystemInfo({
 			success(res) {
 				that.setData({
@@ -29,10 +39,21 @@ Page({
 			}
 		})
 	},
+	
 	onShow() {
-    const that = this
-    if (!that.login) {
-      wx.getStorage({
+		const that = this;
+
+		// 【新增】同步自定义 TabBar 的选中状态和主题
+		if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+			this.getTabBar().setData({
+				selected: 3, // 对应 app.json 中 list 的索引，"我的"是第4个，所以是3
+				theme: app.globalData.theme // 同步全局主题到 TabBar
+			})
+		}
+
+		// 【原有逻辑】检查登录状态
+		if (!that.data.login) {
+			wx.getStorage({
 				key: 'userinfo',
 				success(res) {
 					if (res.data) {
@@ -45,50 +66,108 @@ Page({
 					}
 				}
 			})
-    }
-  },
-	// 获取用户的头像和昵称信息
-	bindGetUserInfo(e) {
-		const that = this;
-		wx.getUserInfo({
-			success: function (res) {
-				wx.setStorage({
-					key: "userinfo",
-					data: JSON.stringify(res.userInfo)
-				})
-				that.setData({
-					login: true,
-					avatarUrl: res.userInfo.avatarUrl,
-					nickName: res.userInfo.nickName
-				})
-			}
+		}
+	},
+
+	// 【新增核心】切换夜间模式开关
+	toggleTheme(e) {
+		const isDark = e.detail.value;
+		const newTheme = isDark ? 'dark' : 'light';
+
+		// 1. 更新当前页面的主题变量（控制 wxml 中的 page-wrapper 类名）
+		this.setData({ theme: newTheme });
+
+		// 2. 更新全局变量，确保切换到其他 Tab 页面时也能识别
+		app.globalData.theme = newTheme;
+
+		// 3. 实时更新自定义 TabBar 组件的主题
+		if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+			this.getTabBar().setData({
+				theme: newTheme
+			});
+		}
+
+		// 4. 持久化存储，下次冷启动时依然生效
+		wx.setStorageSync('theme', newTheme);
+	},
+
+	// 【步骤1核心】获取用户头像临时路径
+	onChooseAvatar(e) {
+		const { avatarUrl } = e.detail;
+		this.setData({
+			avatarUrl: avatarUrl
+		});
+		
+		if (this.data.login) {
+			this.updateUserInfoCache();
+		}
+	},
+
+	// 【步骤2核心】表单提交，执行登录逻辑
+	onSubmitLogin(e) {
+		const nickName = e.detail.value.nickname; 
+		const avatarUrl = this.data.avatarUrl;
+
+		if (!avatarUrl) {
+			wx.showToast({ title: '请先点击上方获取头像', icon: 'none' });
+			return;
+		}
+		if (!nickName) {
+			wx.showToast({ title: '请点击输入框获取昵称', icon: 'none' });
+			return;
+		}
+
+		const userInfo = {
+			avatarUrl: avatarUrl,
+			nickName: nickName
+		}
+		wx.setStorage({
+			key: "userinfo",
+			data: JSON.stringify(userInfo)
+		})
+		
+		this.setData({
+			login: true,
+			nickName: nickName
 		})
 	},
+
+	updateUserInfoCache() {
+		const userInfo = {
+			avatarUrl: this.data.avatarUrl,
+			nickName: this.data.nickName
+		};
+		wx.setStorage({
+			key: "userinfo",
+			data: JSON.stringify(userInfo)
+		});
+	},
+
 	phoneLogin() {
 		wx.navigateTo({
 			url: './phoneLogin/phoneLogin',
 		});
 	},
+
 	gotoLogin() {
-		wx.navigateTo({
-			url: './phoneLogin/phoneLogin',
-		});
+		this.setData({
+			login: false,
+			avatarUrl: '',
+			nickName: ''
+		})
+		wx.removeStorage({ key: 'userinfo' })
 	},
+
 	openSwitch() {
-		const that = this;
-		that.setData({
-			show: true
-		})
+		this.setData({ show: true })
 	},
+
 	close() {
-		const that = this;
-		that.setData({
-			show: false
-		})
+		this.setData({ show: false })
 	},
+
 	chooseTimeOut(e) {
-		const that = this;
-		that.setData({
+		this.setData({
 			activeIndex: e.currentTarget.dataset.activeindex
 		})
 	}

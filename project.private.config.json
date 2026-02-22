@@ -1,6 +1,6 @@
 {
-  "libVersion": "3.13.0",
-  "projectname": "%E4%BB%BF%E5%96%9C%E9%A9%AC%E6%8B%89%E9%9B%85lite",
+  "libVersion": "3.14.2",
+  "projectname": "robdance2",
   "condition": {},
   "setting": {
     "urlCheck": false,

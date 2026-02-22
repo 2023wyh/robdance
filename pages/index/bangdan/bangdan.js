@@ -1,12 +1,11 @@
+// pages/index/bangdan/bangdan.js
+const app = getApp() // 【新增】
 let myRequest = require('../../../api/index.js')
-// 定义一个全局变量保存从接口获取到的数据，以免重复请求接口
 let resut;
-Page({
 
-	/**
-	 * 页面的初始数据
-	 */
+Page({
 	data: {
+		theme: 'light', // 【新增】
 		showCover: false,
 		currentTab: 0,
 		navTitle: [
@@ -18,12 +17,10 @@ Page({
 			{ title: '最潮外语' },
 			{ title: '商业财经' },
 			{ title: '热门新闻' }
-		]
+		],
+		list: [] // 初始化一下 list
 	},
 
-	/**
-	 * 生命周期函数--监听页面加载
-	 */
 	onLoad: function (options) {
 		let that = this;
 		myRequest.getData().then(res => {
@@ -33,29 +30,30 @@ Page({
 			})
 		})
 	},
+
+	// 【新增】同步主题
+	onShow: function () {
+		this.setData({
+			theme: app.globalData.theme
+		})
+	},
+
+	// 原有逻辑保持不变...
 	handleClick(e) {
 		let currentTab = e.currentTarget.dataset.index;
-		// 实现每一个tabbar切换对应内容的原理，根据每一个tabbar的index对应数组中的数据
 		this.setData({
 			currentTab,
 			list: resut.data.hotRecommends.list[currentTab].list
 		})
 	},
 	pullDown: function () {
-		let that = this;
-		that.setData({
-			showCover: true
-		})
+		this.setData({ showCover: true })
 	},
 	closeCover: function () {
-		let that = this;
-		that.setData({
-			showCover: false
-		})
+		this.setData({ showCover: false })
 	},
 	coverCheck: function (e) {
 		let currentTab = e.currentTarget.dataset.index;
-		// 实现每一个tabbar切换对应内容的原理，根据每一个tabbar的index对应数组中的数据
 		this.setData({
 			currentTab,
 			list: resut.data.hotRecommends.list[currentTab].list

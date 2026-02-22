@@ -1,32 +1,50 @@
+// pages/collection/collection.js
 const app = getApp()
+
 Page({
   data: {
-    currentIndex:0,
-    height:0,
+    theme: 'light', // 【新增】主题
+    currentIndex: 0,
+    height: 0,
     login: false,
     content: [
-      {text: "我的收藏"},
-      {text: "我的已购"},
-      {text: "收听历史"},
-      {text: "我的礼包"}
+      { text: "我的收藏" },
+      { text: "我的已购" },
+      { text: "收听历史" },
+      { text: "我的礼包" }
     ]
   },
+
   onLoad() {
     const that = this;
     wx.getSystemInfo({
-      success (res) {
+      success(res) {
         that.setData({
-          height :res.windowHeight
+          height: res.windowHeight
         })
       }
     })
   },
+
   onShow() {
     const that = this
-    if (!that.login) {
+    // 【新增】同步主题和 TabBar 状态
+    this.setData({
+      theme: app.globalData.theme
+    })
+
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 2, // 收藏页对应的索引是 2
+        theme: app.globalData.theme
+      })
+    }
+
+    // 原有登录检查逻辑
+    if (!that.data.login) {
       wx.getStorage({
         key: 'userinfo',
-        success(res){
+        success(res) {
           that.setData({
             login: res.data ? true : false,
           })
@@ -34,36 +52,37 @@ Page({
       })
     }
   },
-  // 点击获取头像和昵称
+
+  // 点击获取头像和昵称 (建议保留原有逻辑，仅适配样式)
   bindGetUserInfo(e) {
     const that = this;
-		wx.getUserInfo({
-			success: function (res) {
-				wx.setStorage({
-					key: "userinfo",
-					data: JSON.stringify(res.userInfo)
-				})
-				that.setData({
-					login: true
-				})
-			}
-		})
+    // 注意：wx.getUserInfo 在新版本中已受限，但这不影响主题修改
+    wx.getUserInfo({
+      success: function (res) {
+        wx.setStorage({
+          key: "userinfo",
+          data: JSON.stringify(res.userInfo)
+        })
+        that.setData({
+          login: true
+        })
+      }
+    })
   },
+
   checkItem(e) {
-    const that = this;
-    if (this.data.currentIndex === e.target.dataset.current) {
+    if (this.data.currentIndex === e.target.dataset.index) {
       return false;
     } else {
-      that.setData({
+      this.setData({
         currentIndex: e.target.dataset.index
       })
     }
   },
-  // 滑动切换tab
+
   changeTab(e) {
-    const that = this;
-    that.setData({
-      currentIndex:e.detail.current
+    this.setData({
+      currentIndex: e.detail.current
     })
   }
 })
