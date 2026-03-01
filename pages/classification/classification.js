@@ -22,7 +22,7 @@ Page({
     ],
     selectedDanceStyle: "",
 
-    // 搜索关键字（若你的 <search> 组件能触发事件）
+    // 搜索关键字
     keyword: ""
   },
 
