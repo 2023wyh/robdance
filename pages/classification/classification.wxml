@@ -1,63 +1,119 @@
-<!-- 保留原来的自定义搜索组件（如果项目里存在该组件） -->
+<!-- 搜索组件 -->
 <search></search>
 
-<!-- 兼容性搜索（如果自定义 search 无事件时可用） -->
+<!-- 兼容性搜索 -->
 <view class="search-wrap">
-  <input class="search-input" placeholder="搜索课程 / 标签" bindconfirm="onSearch" />
+  <input 
+    class="search-input" 
+    placeholder="搜索课程 / 标签" 
+    bindconfirm="onSearch" 
+  />
 </view>
 
-<!-- 顶部分类 tab（横向可滚动） -->
-<scroll-view class="course-tabbar" scroll-x="true" scroll-with-animation="true">
+<!-- 顶部分类 tab -->
+<scroll-view 
+  class="course-tabbar" 
+  scroll-x="true" 
+  scroll-with-animation="true"
+>
   <block wx:for="{{tabs}}" wx:key="type">
-    <view class="tab-item {{currentTab === item.type ? 'active': ''}}"
-          data-type="{{item.type}}"
-          bindtap="switchTab">
+    <view 
+      class="tab-item {{currentTab === item.type ? 'active': ''}}"
+      data-type="{{item.type}}"
+      bindtap="switchTab"
+    >
       {{item.name}}
     </view>
   </block>
 </scroll-view>
 
-<!-- 舞种筛选条（插在 tabbar 下面）-->
-<scroll-view class="dance-style-bar" scroll-x="true" scroll-with-animation="true">
-  <view class="style-item {{selectedDanceStyle === '' ? 'active':''}}"
-        bindtap="selectDanceStyle"
-        data-style="">
+<!-- 舞种筛选 -->
+<scroll-view 
+  class="dance-style-bar" 
+  scroll-x="true" 
+  scroll-with-animation="true"
+>
+  <view 
+    class="style-item {{selectedDanceStyle === '' ? 'active':''}}"
+    bindtap="selectDanceStyle"
+    data-style=""
+  >
     全部
   </view>
+
   <block wx:for="{{danceStyles}}" wx:key="index">
-    <view class="style-item {{selectedDanceStyle === item ? 'active':''}}"
-          bindtap="selectDanceStyle"
-          data-style="{{item}}">
+    <view 
+      class="style-item {{selectedDanceStyle === item ? 'active':''}}"
+      bindtap="selectDanceStyle"
+      data-style="{{item}}"
+    >
       {{item}}
     </view>
   </block>
 </scroll-view>
 
-<!-- 页面主体：课程列表 -->
+<!-- 主体 -->
 <view class="course-list-wrap">
-  <!-- 空提示 -->
+
+  <!-- 空状态 -->
   <view wx:if="{{courseList.length === 0}}" class="empty-tip">
     暂无课程，换个分类或搜索试试～
   </view>
 
-  <!-- 课程卡片网格 -->
+  <!-- 课程网格 -->
   <view class="course-grid" wx:else>
+
     <block wx:for="{{courseList}}" wx:key="id">
-      <view class="course-card" data-id="{{item.id}}" bindtap="openCourseDetail">
-        <image class="cover" src="{{item.cover}}" mode="aspectFill" />
-        <view class="card-body">
-          <view class="title">{{item.title}}</view>
-          <view class="meta">
-            <view class="dance">{{item.danceStyle || item.category}}</view>
-            <view class="price">{{item.price || ''}}</view>
+      <view 
+        class="course-card" 
+        data-id="{{item.id}}" 
+        bindtap="openCourseDetail"
+      >
+
+        <!-- 封面区域 -->
+        <view class="cover-wrap">
+          <image 
+            class="cover" 
+            src="{{item.cover}}" 
+            mode="aspectFill"
+          />
+
+          <!-- 角标（比如 视频课 / 直播） -->
+          <view class="corner-label" wx:if="{{item.category}}">
+            {{item.category}}
           </view>
+        </view>
+
+        <!-- 卡片主体 -->
+        <view class="card-body">
+
+          <!-- 标题 -->
+          <view class="title">
+            {{item.title}}
+          </view>
+
+          <!-- 元信息 -->
+          <view class="meta">
+            <view class="dance">
+              {{item.danceStyle || item.category}}
+            </view>
+            <view class="price" wx:if="{{item.price}}">
+              {{item.price}}
+            </view>
+          </view>
+
+          <!-- 标签 -->
           <view class="tags" wx:if="{{item.tags && item.tags.length}}">
             <block wx:for="{{item.tags}}" wx:key="index">
               <text class="tag-text">{{item}}</text>
             </block>
           </view>
+
         </view>
+
       </view>
     </block>
+
   </view>
+
 </view>
