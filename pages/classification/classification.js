@@ -1,6 +1,6 @@
+// pages/classification/classification.js
 Page({
   data: {
-    // 顶部tab（最后一个为"舞种"展示页/入口）
     tabs: [
       { name: "会员专区", type: "vip" },
       { name: "视频课", type: "video" },
@@ -9,39 +9,28 @@ Page({
       { name: "舞种", type: "dance" }
     ],
     currentTab: "vip",
-
-    // 可选：页面中用于控制滚动高度的 rpx 值，onLoad 会动态覆盖
-    phoneHeight: 1334,
-
-    // 当前显示的课程列表
+    phoneHeight: 1334, // 临时占位，onLoad 会覆盖
     courseList: [],
-
-    // 可选舞种筛选器（会在页面中横向展示）
     danceStyles: [
       "猫蝶富贵", "中国舞", "民间舞", "芭蕾", "街舞", "汉族民俗", "地方民间"
     ],
     selectedDanceStyle: "",
-
-    // 搜索关键字
     keyword: ""
   },
 
   onLoad() {
-    // 1) 动态计算 phoneHeight（rpx）以保证布局兼容
+    // 动态计算 phoneHeight（rpx）
     try {
       const sys = wx.getSystemInfoSync();
       const phoneHeight = Math.floor(sys.windowHeight * 750 / sys.windowWidth);
       this.setData({ phoneHeight });
     } catch (err) {
-      console.warn("getSystemInfoSync failed, keep default phoneHeight", err);
+      console.warn('getSystemInfoSync failed', err);
     }
 
-    // 2) THEME & 数据源（把下面 themeData 替换为真实内容 / 接口结果）
-    //    我已根据你提供的项目主题准备了示例课程项（包含 AI/3D/可穿戴 信息）
-    this.THEME = "luanjing-core"; // 你可以改为其他主题 key
-
+    // THEME & 数据源（封面图片使用 /image/course/<filename>）
+    this.THEME = "luanjing-core";
     this.themeData = {
-      // 样例主题：鸾镜顾影 / 非遗舞蹈数字化学习
       "luanjing-core": {
         vip: [
           {
@@ -50,7 +39,7 @@ Page({
             danceStyle: "猫蝶富贵",
             category: "视频课",
             price: "会员免费",
-            cover: "/image/course/mdfg_cover1.jpg",
+            cover: "/image/course/mdfg_vip1.jpg",
             video: "/video/mdfg_intro.mp4",
             model3D: "/3d/mdfg_model.glb",
             analysisAvailable: true,
@@ -63,7 +52,7 @@ Page({
             danceStyle: "猫蝶富贵",
             category: "视频课",
             price: "会员免费",
-            cover: "/image/course/3d_archive.jpg",
+            cover: "/image/course/mdfg_vip2.jpg",
             video: "/video/3d_archive.mp4",
             model3D: "/3d/archive_sample.glb",
             analysisAvailable: true,
@@ -120,7 +109,6 @@ Page({
           }
         ],
         dance: [
-          // 舞种页：可以列出每个舞种的代表课程或介绍
           {
             id: 5001,
             title: "猫蝶富贵：舞种简介与历史价值",
@@ -142,11 +130,32 @@ Page({
       }
     };
 
-    // 3) 初始加载 currentTab 对应的数据
+    // 把所有课程集合（扁平化）缓存（方便 details 页面读取）
+    this._cacheAllCoursesToStorage();
+
+    // 初始加载 currentTab
     this.loadCourses(this.data.currentTab);
   },
 
-  // 切 tab
+  // 把 themeData 中所有条目合并并存到本地缓存（便于 details 页面查找）
+  _cacheAllCoursesToStorage() {
+    const theme = this.THEME || 'luanjing-core';
+    const obj = this.themeData[theme] || {};
+    const all = [];
+    Object.keys(obj).forEach(key => {
+      const arr = Array.isArray(obj[key]) ? obj[key] : [];
+      arr.forEach(item => all.push(item));
+    });
+    // 存一份到本地缓存，供 details 页面读取
+    try {
+      wx.setStorageSync('courseList', all);
+    } catch (err) {
+      console.warn('setStorageSync courseList failed', err);
+    }
+    this._allCourses = all; // 内存缓存
+  },
+
+  // 顶部tab切换
   switchTab(e) {
     const type = e.currentTarget.dataset.type;
     if (!type) return;
@@ -158,24 +167,27 @@ Page({
   // 选择舞种（横向筛选条）
   selectDanceStyle(e) {
     const style = e.currentTarget.dataset.style || "";
-    // 切换选中状态：再次点同一舞种清除筛选
     const next = (this.data.selectedDanceStyle === style) ? "" : style;
     this.setData({ selectedDanceStyle: next }, () => {
-      // 重新过滤当前 tab 列表
       this.applyFilters();
     });
   },
 
-  // 基础加载：读取 themeData 中对应 tab 的数组
+  // 搜索触发（兼容 input 的 bindconfirm）
+  onSearch(e) {
+    const kw = (e.detail && e.detail.value) ? e.detail.value : (e.detail || "");
+    this.setData({ keyword: kw }, () => this.applyFilters());
+  },
+
+  // 加载指定类别（从 themeData 中读取）
   loadCourses(type) {
-    const theme = this.THEME || "luanjing-core";
+    const theme = this.THEME || 'luanjing-core';
     const map = (this.themeData[theme] && this.themeData[theme][type]) ? this.themeData[theme][type] : [];
-    // 直接设置（后续会走 applyFilters 进行舞种/关键字过滤）
     this._rawList = Array.isArray(map) ? map.slice() : [];
     this.applyFilters();
   },
 
-  // 统一把 selectedDanceStyle / keyword 应用到 _rawList，得到 courseList
+  // 应用舞种/关键字过滤器（对 _rawList）
   applyFilters() {
     const style = this.data.selectedDanceStyle;
     const kw = (this.data.keyword || "").trim().toLowerCase();
@@ -191,22 +203,20 @@ Page({
     this.setData({ courseList: list });
   },
 
-  // 搜索回调：如果你的 <search> 组件会触发自定义事件，请把关键字传到这里
-  onSearch(e) {
-    const kw = e.detail && e.detail.value ? e.detail.value : "";
-    this.setData({ keyword: kw }, () => this.applyFilters());
-  },
-
-  // 点击卡片：跳详情或播放（这里默认跳详情）
+  // 点击卡片：缓存选中课程并跳详情
   openCourseDetail(e) {
     const id = e.currentTarget.dataset.id;
     if (!id) return;
-    // 建议 details 页面通过接口或本地缓存获取完整课程信息。
+    // 优先尝试从内存缓存中找
+    const item = (this._allCourses || []).find(i => String(i.id) === String(id));
+    if (item) {
+      try { wx.setStorageSync('selectedCourse', item); } catch (err) { /* ignore */ }
+    }
     wx.navigateTo({ url: `/pages/details/details?id=${id}` });
   },
 
-  // 如果需要内嵌播放（不跳详情），可以增加 playInline(e) 方法，在课程卡中绑定
+  // 备用：内嵌播放（未实现）
   playInline(e) {
-    // 示例：打开一个 video 组件或弹窗播放。实现留给你选择
+    wx.showToast({ title: '内嵌播放未实现（可定制）', icon: 'none' });
   }
 });
