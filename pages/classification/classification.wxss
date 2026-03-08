@@ -1,10 +1,10 @@
 /* pages/classification/classification.wxss */
 
-/* ---------- 原有样式（保留） ---------- */
+/* ---------- 原有样式（适配变量） ---------- */
 .hmly-ification {
   width: 100%;
   height: 100%;
-  background-color: rgb(243, 244, 246);
+  background-color: var(--bg-secondary); /* 替换 rgb(243, 244, 246) */
   display: flex;
   justify-content: start;
 }
@@ -13,7 +13,7 @@
   width: 22%;
   padding-top: 55rpx;
   margin-right: 20rpx;
-  background-color: #fff;
+  background-color: var(--bg-color); /* 替换 #fff */
   overflow: hidden;
 }
 
@@ -22,6 +22,7 @@
   font-size: 28rpx;
   height: 100rpx;
   line-height: 100rpx;
+  color: var(--text-main); /* 新增：文字颜色 */
 }
 
 .hmly-scroll-right {
@@ -30,7 +31,7 @@
 
 .hmly-active {
   color: #ff520f;
-  background-color: rgb(243, 244, 246);
+  background-color: var(--bg-secondary); /* 替换 rgb(243, 244, 246) */
 }
 
 .hmly-content-scroll-item {
@@ -48,10 +49,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--text-main); /* 新增：文字颜色 */
 }
 
 .hmly-content-title {
-  color: rgb(12, 11, 11);
+  color: var(--text-main); /* 替换 rgb(12, 11, 11) */
   font-size: 30rpx;
   text-align: center;
   margin: 0rpx auto;
@@ -66,7 +68,7 @@
   flex-wrap: wrap;
   align-content: space-around;
   justify-content: space-between;
-  background-color: #fff;
+  background-color: var(--bg-color); /* 替换 #fff */
   border-top-left-radius: 7rpx;
   border-bottom-left-radius: 7rpx;
 }
@@ -77,33 +79,35 @@
   margin: 10rpx 20rpx;
   font-size: 30rpx;
   text-align: center;
+  color: var(--text-gray); /* 新增：辅助文字颜色 */
 }
 
-/* ---------- 新增样式（课程页） ---------- */
+/* ---------- 新增样式（课程页适配） ---------- */
 
 /* 搜索输入 */
 .search-wrap {
   padding: 18rpx 20rpx;
-  background: #fff;
+  background-color: var(--bg-color); /* 替换 #fff */
 }
 .search-input {
   width: 100%;
   height: 68rpx;
   border-radius: 34rpx;
   padding: 0 28rpx;
-  background: #f5f5f5;
+  background-color: var(--bg-secondary); /* 替换 #f5f5f5 */
   border: none;
   font-size: 26rpx;
+  color: var(--text-main); /* 新增：输入文字颜色 */
 }
 
-/* 顶部 tab 样式 */
+/* 顶部分类 tab 样式 */
 .course-tabbar {
   display: flex;
   padding: 18rpx 20rpx;
-  background: #fff;
+  background-color: var(--bg-color); /* 替换 #fff */
   overflow-x: auto;
   white-space: nowrap;
-  border-bottom: 1rpx solid #f0f0f0;
+  border-bottom: 1rpx solid var(--border-color); /* 替换 #f0f0f0 */
   -webkit-overflow-scrolling: touch;
 }
 .tab-item {
@@ -111,13 +115,13 @@
   margin-right: 12rpx;
   border-radius: 28rpx;
   font-size: 28rpx;
-  color: #666;
-  background: #f8f8f8;
+  color: var(--text-gray); /* 替换 #666 */
+  background-color: var(--bg-secondary); /* 替换 #f8f8f8 */
   white-space: nowrap;
 }
 .tab-item.active {
-  color: #fff;
-  background: #ff520f; /* 与 app.json 选中色保持一致 */
+  color: #fff; /* 品牌色上的字通常保持白色 */
+  background-color: #ff520f; 
 }
 
 /* 舞种筛选条（横向） */
@@ -125,7 +129,7 @@
   display: flex;
   padding: 12rpx 18rpx;
   gap: 14rpx;
-  background: #fff;
+  background-color: var(--bg-color); /* 替换 #fff */
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -134,29 +138,29 @@
 .style-item {
   padding: 10rpx 24rpx;
   border-radius: 20rpx;
-  background: #f4f4f4;
-  color: #666;
+  background-color: var(--bg-secondary); /* 替换 #f4f4f4 */
+  color: var(--text-gray); /* 替换 #666 */
   font-size: 26rpx;
   white-space: nowrap;
 }
 
 /* 被选中时的样式（高亮） */
 .style-item.active {
-  background: #ff520f; /* 与 app.json selectedColor 保持一致 */
+  background-color: #ff520f; 
   color: #fff;
 }
 
 /* 列表容器 */
 .course-list-wrap {
   padding: 20rpx;
-  background: #fafafa;
+  background-color: var(--bg-color); /* 替换 #fafafa */
   min-height: 600rpx;
 }
 
 /* 空提示 */
 .empty-tip {
   text-align: center;
-  color: #999;
+  color: var(--text-gray); /* 替换 #999 */
   padding: 120rpx 0;
 }
 
@@ -171,9 +175,11 @@
 /* 卡片 */
 .course-card {
   width: 48%;
-  background: #fff;
+  background-color: var(--bg-secondary); /* 重要：夜间模式卡片通常比背景略亮 */
   border-radius: 12rpx;
   overflow: hidden;
+  /* 夜间模式阴影需要变淡或取消，使用 border 更有质感 */
+  border: 1rpx solid var(--border-color); 
   box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.04);
   margin-bottom: 20rpx;
 }
@@ -187,7 +193,7 @@
 }
 .title {
   font-size: 28rpx;
-  color: #333;
+  color: var(--text-main); /* 替换 #333 */
   line-height: 36rpx;
   height: 72rpx;
   overflow: hidden;
@@ -198,10 +204,10 @@
   display: flex;
   justify-content: space-between;
   font-size: 24rpx;
-  color: #999;
+  color: var(--text-gray); /* 替换 #999 */
 }
 .dance {
-  color: #666;
+  color: var(--text-gray); /* 替换 #666 */
 }
 .price {
   color: #ff520f;
@@ -218,19 +224,18 @@
   margin-right: 8rpx;
   margin-bottom: 8rpx;
   border-radius: 12rpx;
-  background: #f2f2f2;
+  background-color: var(--bg-color); /* 替换 #f2f2f2 */
   font-size: 22rpx;
-  color: #666;
+  color: var(--text-gray); /* 替换 #666 */
 }
 
-/* 响应式微调：窄屏时让卡片变成单列 */
+/* 响应式微调 */
 @media screen and (max-width: 360px) {
   .course-card { width: 100%; }
 }
 
-/* ---------- 新增：封面容器与角标样式 ---------- */
+/* ---------- 封面容器与角标样式适配 ---------- */
 
-/* 封面容器（把 cover 放进这个容器以支持角标/遮罩） */
 .cover-wrap {
   position: relative;
   width: 100%;
@@ -238,7 +243,7 @@
   overflow: hidden;
 }
 
-/* 角标（左上角） */
+/* 角标：由于在图片上，颜色可以保持固定 */
 .corner-label {
   position: absolute;
   top: 16rpx;
@@ -251,44 +256,4 @@
   z-index: 2;
 }
 
-/* 可选：封面底部渐变遮罩（让标题更好看） */
-.cover-mask {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 80rpx;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 100%);
-  z-index: 1;
-}
-
-/* 小播放图标浮层（可选，放在封面正中） */
-.play-icon {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  font-size: 46rpx;
-  color: rgba(255,255,255,0.92);
-}
-
-/* 卡片主体与标题在封面遮罩上显示更清晰 */
-.card-body { padding: 18rpx; }
-.title { font-size: 28rpx; color: #fff; /* 如果你把标题放在遮罩上 */ }
-
-/* 若你希望把标题显示在封面底部遮罩上，可以额外样式（注释掉可选使用）
-.cover-title {
-  position: absolute;
-  left: 16rpx;
-  bottom: 12rpx;
-  z-index: 2;
-  color: #fff;
-  font-size: 26rpx;
-}
-*/
-
-/* 如果你想给角标不同颜色，可以通过 .corner-label.vip / .corner-label.live 等覆盖 */
-.corner-label.vip { background: rgba(255,82,15,0.95); }
-.corner-label.live { background: rgba(10,140,255,0.95); }
-.corner-label.offline { background: rgba(123,97,255,0.95); }
+/* 针对夜间模式的微调：如果需要可以在这里添加 .theme-dark 类下的特殊覆盖 */

@@ -1,76 +1,56 @@
-<!-- 若是没有登录就显示登录界面 -->
-<block wx:if="{{!login}}">
-	<!-- logo -->
-	<view class="hmly-logo" hover-class="none" hover-stop-propagation="false">
-		<image class="hmly-logo-img" src="/image/logo.png" mode="widthFix" lazy-load="false"></image>
-	</view>
-	<!-- 登录按钮 -->
-	<view class="hmly-login-button" hover-class="none" hover-stop-propagation="false">
-		<view class="hmly-wechat-login">
-			<button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-				<text class="icon-message"></text> 微信登录
-			</button>
+<!-- pages/collection/collection.wxml -->
+<view class="page-wrapper theme-{{theme}}">
+	<!-- 若是没有登录就显示登录界面 -->
+	<block wx:if="{{!login}}">
+		<view class="hmly-logo">
+			<image class="hmly-logo-img" src="/image/logo.png" mode="widthFix"></image>
 		</view>
-		<view class="hmly-phone-login">
-			<button>手机号登录</button>
+		<view class="hmly-login-button">
+			<view class="hmly-wechat-login">
+				<button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+					<text class="icon-message"></text> 微信登录
+				</button>
+			</view>
+			<view class="hmly-phone-login">
+				<button>手机号登录</button>
+			</view>
 		</view>
-	</view>
-</block>
-<block wx:else>
-	<!-- 搜索框 -->
-	<search></search>
-	<!-- 功能栏 -->
-	<view class="hmly-title-bar">
-		<view class="hmly-item-title {{index == currentIndex ? 'hmly-active' : ' '}}" data-index="{{index}}"
-			bindtap="checkItem" wx:for="{{content}}" wx:key="index">
-			{{item.text}}
+	</block>
+
+	<!-- 已登录界面 -->
+	<block wx:else>
+		<!-- 搜索框 -->
+		<search theme="{{theme}}"></search>
+		
+		<!-- 功能栏 (选项卡标题) -->
+		<view class="hmly-title-bar" style="background-color: var(--bg-color); border-bottom: 1rpx solid var(--border-color);">
+			<view 
+				class="hmly-item-title {{index == currentIndex ? 'hmly-active' : ''}}" 
+				style="color: {{index == currentIndex ? '#ff520f' : 'var(--text-gray)'}};"
+				data-index="{{index}}"
+				bindtap="checkItem" 
+				wx:for="{{content}}" 
+				wx:key="index"
+			>
+				{{item.text}}
+			</view>
 		</view>
-	</view>
-	<swiper class="hmly-swiper-box" style="min-height:{{height}}px" duration="300" current="{{currentIndex}}"
-		bindchange="changeTab">
-		<swiper-item>
-			<block>
+
+		<swiper class="hmly-swiper-box" style="height:{{height}}px; background-color: var(--bg-color);" duration="300" current="{{currentIndex}}" bindchange="changeTab">
+			<!-- 这里演示第一个 swiper-item，其他三个同理修改 -->
+			<swiper-item wx:for="{{content}}" wx:key="index">
 				<view class="hmly-no-content">
-					<text class="icon-empty text-gray" style="font-size:400rpx"></text>
+					<!-- 修改点：图标颜色和文字颜色 -->
+					<text class="icon-empty" style="font-size:400rpx; color: var(--bg-secondary);"></text>
 					<view class="hmly-but-box">
-						<text style="font-size:30rpx" class="text-gray">没有内容</text>
-						<button class="hmly-but">看看推荐</button>
+						<text style="font-size:30rpx; color: var(--text-gray);">没有内容</text>
+						<!-- 修改点：按钮样式 -->
+						<button class="hmly-but" style="background-color: #ff520f; color: #fff;">
+							{{index === 3 ? '更多礼包' : '看看推荐'}}
+						</button>
 					</view>
 				</view>
-			</block>
-		</swiper-item>
-		<swiper-item>
-			<block>
-				<view class="hmly-no-content">
-					<text class="icon-empty text-gray" style="font-size:400rpx"></text>
-					<view class="hmly-but-box">
-						<text style="font-size:30rpx" class="text-gray">没有内容</text>
-						<button class="hmly-but">看看推荐</button>
-					</view>
-				</view>
-			</block>
-		</swiper-item>
-		<swiper-item>
-			<block>
-				<view class="hmly-no-content">
-					<text class="icon-empty text-gray" style="font-size:400rpx"></text>
-					<view class="hmly-but-box">
-						<text style="font-size:30rpx" class="text-gray">没有内容</text>
-						<button class="hmly-but">看看推荐</button>
-					</view>
-				</view>
-			</block>
-		</swiper-item>
-		<swiper-item>
-			<block>
-				<view class="hmly-no-content">
-					<text class="icon-empty text-gray" style="font-size:400rpx"></text>
-					<view class="hmly-but-box">
-						<text style="font-size:30rpx" class="text-gray">没有内容</text>
-						<button class="hmly-but">更多礼包</button>
-					</view>
-				</view>
-			</block>
-		</swiper-item>
-	</swiper>
-</block>
+			</swiper-item>
+		</swiper>
+	</block>
+</view>

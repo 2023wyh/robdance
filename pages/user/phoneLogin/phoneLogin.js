@@ -1,10 +1,12 @@
-const app = getApp();
+// pages/user/phoneLogin/phoneLogin.js
+const app = getApp(); // 【新增】
+
 Page({
 	data: {
+		theme: 'light', // 【新增】主题变量
 		height: 400
 	},
 	onLoad(options) {
-		//获取设备信息
 		const that = this;
 		wx.getSystemInfo({
 			success(res) {
@@ -13,6 +15,12 @@ Page({
 				})
 			}
 		})
+	},
+	// 【新增】同步全局主题状态
+	onShow() {
+		this.setData({
+			theme: app.globalData.theme || 'light'
+		});
 	},
 	login() {
 		wx.showToast({

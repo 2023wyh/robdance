@@ -1,6 +1,9 @@
 // pages/classification/classification.js
+const app = getApp(); // 【新增】获取全局应用实例
+
 Page({
   data: {
+    theme: 'light', // 【新增】主题变量
     tabs: [
       { name: "会员专区", type: "vip" },
       { name: "视频课", type: "video" },
@@ -9,7 +12,7 @@ Page({
       { name: "舞种", type: "dance" }
     ],
     currentTab: "vip",
-    phoneHeight: 1334, // 临时占位，onLoad 会覆盖
+    phoneHeight: 1334, 
     courseList: [],
     danceStyles: [
       "猫蝶富贵", "中国舞", "民间舞", "芭蕾", "街舞", "汉族民俗", "地方民间"
@@ -28,7 +31,7 @@ Page({
       console.warn('getSystemInfoSync failed', err);
     }
 
-    // THEME & 数据源（封面图片使用 /image/course/<filename>）
+    // THEME & 数据源
     this.THEME = "luanjing-core";
     this.themeData = {
       "luanjing-core": {
@@ -130,14 +133,28 @@ Page({
       }
     };
 
-    // 把所有课程集合（扁平化）缓存（方便 details 页面读取）
+    // 把所有课程集合（扁平化）缓存
     this._cacheAllCoursesToStorage();
 
     // 初始加载 currentTab
     this.loadCourses(this.data.currentTab);
   },
 
-  // 把 themeData 中所有条目合并并存到本地缓存（便于 details 页面查找）
+  // 【新增】页面显示时同步主题与 TabBar 状态
+  onShow() {
+    console.log("当前全局主题是：", app.globalData.theme); 
+    this.setData({
+      theme: app.globalData.theme || 'light'
+    });
+
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 1, // 分类页面对应的索引是 1
+        theme: app.globalData.theme || 'light'
+      });
+    }
+  },
+
   _cacheAllCoursesToStorage() {
     const theme = this.THEME || 'luanjing-core';
     const obj = this.themeData[theme] || {};
@@ -146,13 +163,12 @@ Page({
       const arr = Array.isArray(obj[key]) ? obj[key] : [];
       arr.forEach(item => all.push(item));
     });
-    // 存一份到本地缓存，供 details 页面读取
     try {
       wx.setStorageSync('courseList', all);
     } catch (err) {
       console.warn('setStorageSync courseList failed', err);
     }
-    this._allCourses = all; // 内存缓存
+    this._allCourses = all; 
   },
 
   // 顶部tab切换
@@ -164,7 +180,7 @@ Page({
     });
   },
 
-  // 选择舞种（横向筛选条）
+  // 选择舞种
   selectDanceStyle(e) {
     const style = e.currentTarget.dataset.style || "";
     const next = (this.data.selectedDanceStyle === style) ? "" : style;
@@ -173,13 +189,13 @@ Page({
     });
   },
 
-  // 搜索触发（兼容 input 的 bindconfirm）
+  // 搜索触发
   onSearch(e) {
     const kw = (e.detail && e.detail.value) ? e.detail.value : (e.detail || "");
     this.setData({ keyword: kw }, () => this.applyFilters());
   },
 
-  // 加载指定类别（从 themeData 中读取）
+  // 加载指定类别
   loadCourses(type) {
     const theme = this.THEME || 'luanjing-core';
     const map = (this.themeData[theme] && this.themeData[theme][type]) ? this.themeData[theme][type] : [];
@@ -187,7 +203,7 @@ Page({
     this.applyFilters();
   },
 
-  // 应用舞种/关键字过滤器（对 _rawList）
+  // 应用舞种/关键字过滤器
   applyFilters() {
     const style = this.data.selectedDanceStyle;
     const kw = (this.data.keyword || "").trim().toLowerCase();
@@ -203,11 +219,10 @@ Page({
     this.setData({ courseList: list });
   },
 
-  // 点击卡片：缓存选中课程并跳详情
+  // 点击卡片跳转
   openCourseDetail(e) {
     const id = e.currentTarget.dataset.id;
     if (!id) return;
-    // 优先尝试从内存缓存中找
     const item = (this._allCourses || []).find(i => String(i.id) === String(id));
     if (item) {
       try { wx.setStorageSync('selectedCourse', item); } catch (err) { /* ignore */ }
@@ -215,7 +230,6 @@ Page({
     wx.navigateTo({ url: `/pages/details/details?id=${id}` });
   },
 
-  // 备用：内嵌播放（未实现）
   playInline(e) {
     wx.showToast({ title: '内嵌播放未实现（可定制）', icon: 'none' });
   }

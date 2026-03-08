@@ -1,36 +1,53 @@
-<!-- 搜索框 -->
-<view class="hmly-search">
-	<view class="hmly-search-left">
-		<text class="icon-search"></text>
-		<input placeholder="搜索你想听的节目" bindconfirm="search"></input>
+<!-- pages/search/search.wxml -->
+<view class="page-wrapper theme-{{theme}}" style="min-height: 100vh;">
+	<!-- 搜索框区域 -->
+	<view class="hmly-search" style="background-color: var(--bg-color);">
+		<view class="hmly-search-left" style="background-color: var(--bg-secondary);">
+			<text class="icon-search" style="color: var(--text-gray);"></text>
+			<input 
+				placeholder="搜索你想听的节目" 
+				placeholder-class="hmly-place" 
+				bindconfirm="search" 
+				style="color: var(--text-main);"
+				confirm-type="search"
+			></input>
+		</view>
+		<view class="hmly-search-right" bindtap="cancelSearch" style="color: var(--text-main);">取消</view>
 	</view>
-	<view class="hmly-search-right" bindtap="cancelSearch">取消</view>
-</view>
-<!-- 搜索历史 -->
-<view class="hmly-history" wx:if="{{searchHistory.length}}">
-	<!-- 提示标题 -->
-	<view class="hmly-title">
-		<view class="hmly-title-text">搜索历史</view>
-		<text class="icon-delete text-gray" bindtap="clearHistory"></text>
+
+	<!-- 搜索历史 -->
+	<view class="hmly-history" wx:if="{{searchHistory.length}}">
+		<view class="hmly-title">
+			<view class="hmly-title-text" style="color: var(--text-main);">搜索历史</view>
+			<text class="icon-delete text-gray" bindtap="clearHistory"></text>
+		</view>
+		<!-- 历史标签内容 -->
+		<view class="hmly-history-content">
+			<!-- 修改点：背景色和文字颜色适配变量 -->
+			<view 
+				class="hmly-content-item" 
+				style="background-color: var(--bg-secondary); color: var(--text-main);" 
+				wx:for="{{searchHistory}}" 
+				wx:key="index"
+			>{{item}}</view>
+		</view>
 	</view>
-	<!-- 内容 -->
-	<view class="hmly-history-content">
-		<view class="hmly-content-item bg-gray text-black" wx:for="{{searchHistory}}" wx:key="index">{{item}}</view>
-	</view>
-</view>
-<!-- 热门搜索 -->
-<view class="hmly-hot">
-	<!-- 提示标题 -->
-	<view class="hmly-title">
-		<view class="title-text">热门搜索</view>
-	</view>
-	<view class="hmly-hot-content">
-		<view class="hmly-hot-items" wx:for="{{hotData}}" wx:key="index">
-			<view class="hmly-item-left">
-				<view class="{{index < 3 ? 'text-red' : ''}}">{{index + 1}}</view>
-				<view class="hmly-item-title text-black">{{item.title}}</view>
+
+	<!-- 热门搜索 -->
+	<view class="hmly-hot">
+		<view class="hmly-title">
+			<view class="title-text" style="color: var(--text-main);">热门搜索</view>
+		</view>
+		<view class="hmly-hot-content">
+			<view class="hmly-hot-items" wx:for="{{hotData}}" wx:key="index" style="border-bottom: 1rpx solid var(--border-color);">
+				<view class="hmly-item-left">
+					<!-- 排名前三保持红色，其余随主题变色 -->
+					<view class="{{index < 3 ? 'text-red' : ''}}" style="color: {{index < 3 ? '' : 'var(--text-gray)'}};">{{index + 1}}</view>
+					<view class="hmly-item-title" style="color: var(--text-main);">{{item.title}}</view>
+				</view>
+				<!-- 趋势图标保留原有颜色类 -->
+				<text class="{{item.icon}} {{item.color}}"></text>
 			</view>
-			<text class="{{item.icon}} {{item.color}}"></text>
 		</view>
 	</view>
 </view>

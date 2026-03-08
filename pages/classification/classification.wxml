@@ -1,40 +1,52 @@
-<!-- 搜索组件 -->
-<search></search>
+<!-- pages/classification/classification.wxml -->
+<!-- 1. 最外层增加动态主题类名容器 -->
+<view class="page-wrapper theme-{{theme}}">
 
-<!-- 兼容性搜索 -->
-<view class="search-wrap">
+<!-- 搜索组件：传入 theme 确保组件内也能变色 -->
+<search theme="{{theme}}"></search>
+
+<!-- 兼容性搜索输入框 -->
+<view class="search-wrap" style="background-color: var(--bg-color);">
   <input 
     class="search-input" 
     placeholder="搜索课程 / 标签" 
+    placeholder-class="hmly-place"
     bindconfirm="onSearch" 
+    style="background-color: var(--bg-secondary); color: var(--text-main);"
   />
 </view>
 
-<!-- 顶部分类 tab -->
+<!-- 顶部分类 tab (固定在顶部) -->
 <scroll-view 
   class="course-tabbar" 
   scroll-x="true" 
   scroll-with-animation="true"
+  style="background-color: var(--bg-color); border-bottom: 1rpx solid var(--border-color);"
 >
   <block wx:for="{{tabs}}" wx:key="type">
     <view 
       class="tab-item {{currentTab === item.type ? 'active': ''}}"
+      style="color: {{currentTab === item.type ? '#ff520f' : 'var(--text-gray)'}};"
       data-type="{{item.type}}"
       bindtap="switchTab"
     >
       {{item.name}}
+      <!-- 激活时的下划线 -->
+      <view class="tab-line" wx:if="{{currentTab === item.type}}"></view>
     </view>
   </block>
 </scroll-view>
 
-<!-- 舞种筛选 -->
+<!-- 舞种筛选条 -->
 <scroll-view 
   class="dance-style-bar" 
   scroll-x="true" 
   scroll-with-animation="true"
+  style="background-color: var(--bg-color);"
 >
   <view 
     class="style-item {{selectedDanceStyle === '' ? 'active':''}}"
+    style="background-color: {{selectedDanceStyle === '' ? '#ff520f' : 'var(--bg-secondary)'}}; color: {{selectedDanceStyle === '' ? '#fff' : 'var(--text-main)'}};"
     bindtap="selectDanceStyle"
     data-style=""
   >
@@ -44,6 +56,7 @@
   <block wx:for="{{danceStyles}}" wx:key="index">
     <view 
       class="style-item {{selectedDanceStyle === item ? 'active':''}}"
+      style="background-color: {{selectedDanceStyle === item ? '#ff520f' : 'var(--bg-secondary)'}}; color: {{selectedDanceStyle === item ? '#fff' : 'var(--text-main)'}};"
       bindtap="selectDanceStyle"
       data-style="{{item}}"
     >
@@ -52,68 +65,62 @@
   </block>
 </scroll-view>
 
-<!-- 主体 -->
-<view class="course-list-wrap">
+<!-- 主体列表 -->
+<view class="course-list-wrap" style="background-color: var(--bg-color); min-height: {{phoneHeight}}rpx;">
 
-  <!-- 空状态 -->
-  <view wx:if="{{courseList.length === 0}}" class="empty-tip">
+  <!-- 空状态提示 -->
+  <view wx:if="{{courseList.length === 0}}" class="empty-tip" style="color: var(--text-gray);">
     暂无课程，换个分类或搜索试试～
   </view>
 
   <!-- 课程网格 -->
   <view class="course-grid" wx:else>
-
     <block wx:for="{{courseList}}" wx:key="id">
+      <!-- 课程卡片 -->
       <view 
         class="course-card" 
+        style="background-color: var(--bg-secondary); border: 1rpx solid var(--border-color);"
         data-id="{{item.id}}" 
         bindtap="openCourseDetail"
       >
-
         <!-- 封面区域 -->
         <view class="cover-wrap">
-          <image 
-            class="cover" 
-            src="{{item.cover}}" 
-            mode="aspectFill"
-          />
-
-          <!-- 角标（比如 视频课 / 直播） -->
+          <image class="cover" src="{{item.cover}}" mode="aspectFill" />
+          <!-- 角标 -->
           <view class="corner-label" wx:if="{{item.category}}">
             {{item.category}}
           </view>
         </view>
 
-        <!-- 卡片主体 -->
+        <!-- 卡片文字主体 -->
         <view class="card-body">
-
-          <!-- 标题 -->
-          <view class="title">
+          <!-- 标题颜色使用变量 -->
+          <view class="title" style="color: var(--text-main);">
             {{item.title}}
           </view>
 
-          <!-- 元信息 -->
+          <!-- 元信息 (舞种和价格) -->
           <view class="meta">
-            <view class="dance">
+            <view class="dance" style="color: var(--text-gray);">
               {{item.danceStyle || item.category}}
             </view>
-            <view class="price" wx:if="{{item.price}}">
+            <view class="price" style="color: #ff520f;">
               {{item.price}}
             </view>
           </view>
 
-          <!-- 标签 -->
+          <!-- 标签适配 -->
           <view class="tags" wx:if="{{item.tags && item.tags.length}}">
             <block wx:for="{{item.tags}}" wx:key="index">
-              <text class="tag-text">{{item}}</text>
+              <text class="tag-text" style="background-color: var(--bg-color); color: var(--text-gray);">{{item}}</text>
             </block>
           </view>
-
         </view>
-
       </view>
     </block>
-
   </view>
 
+  <!-- 底部占位：防止内容被自定义 TabBar 遮挡 -->
+  <view style="height: 120rpx;"></view>
+</view>
 </view>

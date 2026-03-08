@@ -1,5 +1,9 @@
+// pages/search/search.js
+const app = getApp(); // 【新增】
+
 Page({
 	data: {
+		theme: 'light', // 【新增】
 		searchHistory: [],
 		hotData: [
 			{ title: "宝宝巴士", icon: "icon-jiantouUp", color: "text-orange" },
@@ -10,15 +14,24 @@ Page({
 			{ title: "儿童版三国演义", icon: "icon-jiantouUp", color: "text-red" },
 		]
 	},
-	/**
-	 * 搜索事件
-	 * @param {Object} e 
-	 */
-	search(e){
+
+	// 【新增】同步主题
+	onShow() {
 		this.setData({
-			searchHistory: [...this.data.searchHistory,e.detail.value]
+			theme: app.globalData.theme || 'light'
 		})
 	},
+
+	/**
+	 * 搜索事件
+	 */
+	search(e){
+		if(!e.detail.value.trim()) return;
+		this.setData({
+			searchHistory: [...new Set([e.detail.value, ...this.data.searchHistory])] // 去重并置顶
+		})
+	},
+
 	/**
 	 * 取消搜索事件
 	 */
@@ -27,6 +40,7 @@ Page({
 			delta: 1,
 		})
 	},
+
 	/**
 	 * 清空历史记录
 	 */

@@ -1,0 +1,37 @@
+/* 这里的样式会受到全局 theme 变量的影响 */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background: var(--bg-color); /* 随主题变色 */
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 1rpx solid var(--border-color); /* 随主题变色 */
+  z-index: 999;
+}
+
+.tab-bar-item {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tab-image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.tab-text {
+  font-size: 20rpx;
+  margin-top: 6rpx;
+}
+
+/* 夜间模式特定微调 */
+.theme-dark {
+  background: #1a1a1a;
+}
