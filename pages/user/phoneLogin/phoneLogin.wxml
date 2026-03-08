@@ -1,36 +1,49 @@
-<view class="hmly-main bg-white" style="min-height:{{height}}px">
-	<view class="hmly-content_">
-		<!-- 提示标语 -->
-		<view class="hmly-slogn">
-			登录后即可收听你的收藏专辑哦
-		</view>
-		<!-- 表单输入部分 -->
-		<view class="hmly-login">
-			<form class="frombox" report-submit="false" bindsubmit="" bindreset="">
-				<!-- 输入手机号 -->
-				<view class="hmly-phone-number">
-					<view class="hmly-code">+86</view>
-					<input type="number" placeholder="请输入手机号" placeholder-class="hmly-place"></input>
-				</view>
-				<!-- 验证码 -->
-				<view class="hmly-yzm">
-					<input type="number" placeholder="输入验证码" placeholder-class="hmly-place"></input>
-					<view class="hmly-get-code">获取验证码</view>
-				</view>
-				<view class="hmly-submit" bindtap="login">
-					<button><text class="icon-wechat"></text> 立即登录</button>
-				</view>
-			</form>
-		</view>
-		<!-- 其他登录方式 -->
-		<view class="hmly-wechat">
-			<view class="hmly-tips">
-				<view class="hmly-left-line"></view>
-				其他账户登录
-				<view class="hmly-right-line"></view>
+<!-- pages/user/phoneLogin/phoneLogin.wxml -->
+<view class="page-wrapper theme-{{theme}}">
+	<view class="hmly-main" style="min-height:{{height}}px; background-color: var(--bg-color);">
+		<view class="hmly-content_">
+			<!-- 提示标语 -->
+			<view class="hmly-slogn" style="color: var(--text-gray);">
+				登录后即可收听你的收藏专辑哦
 			</view>
-			<view class="hmly-wecaht-login">
-				<button><text class="icon-wechat"></text> 微信登陆</button>
+			
+			<!-- 表单输入部分 -->
+			<view class="hmly-login">
+				<form class="frombox">
+					<!-- 输入手机号 -->
+					<view class="hmly-phone-number" style="background-color: var(--bg-secondary); border: 1rpx solid var(--border-color);">
+						<view class="hmly-code" style="color: var(--text-main); border-right: 1rpx solid var(--border-color);">+86</view>
+						<input type="number" placeholder="请输入手机号" placeholder-class="hmly-place" style="color: var(--text-main);"></input>
+					</view>
+					
+					<!-- 验证码 -->
+					<view class="hmly-yzm" style="background-color: var(--bg-secondary); border: 1rpx solid var(--border-color);">
+						<input type="number" placeholder="输入验证码" placeholder-class="hmly-place" style="color: var(--text-main);"></input>
+						<view class="hmly-get-code" style="color: #ff520f; border-left: 1rpx solid var(--border-color);">获取验证码</view>
+					</view>
+					
+					<!-- 登录按钮 -->
+					<view class="hmly-submit" bindtap="login">
+						<button style="background-color: #ff520f; color: #fff;">
+							<text class="icon-wechat"></text> 立即登录
+						</button>
+					</view>
+				</form>
+			</view>
+			
+			<!-- 其他登录方式 -->
+			<view class="hmly-wechat">
+				<view class="hmly-tips" style="color: var(--text-gray);">
+					<view class="hmly-left-line" style="background-color: var(--border-color);"></view>
+					其他账户登录
+					<view class="hmly-right-line" style="background-color: var(--border-color);"></view>
+				</view>
+				<view class="hmly-wecaht-login">
+					<!-- 微信登录按钮适配：暗色模式下使用深灰色背景 -->
+					<button style="background-color: var(--bg-secondary); color: var(--text-main); border: 1rpx solid var(--border-color);">
+						<text class="icon-wechat" style="color: #07c160;"></text> 微信登录
+					</button>
+				</view>
 			</view>
 		</view>
 	</view>

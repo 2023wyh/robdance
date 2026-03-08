@@ -1,50 +1,72 @@
-<!-- 因为其他几个页面和榜单是一样的所以其他3个页面就都用的这一个界面 -->
-<block wx:if="{{showCover}}">
-	<!-- 蒙板内容 要放在蒙板的外面-->
-	<view class="hmly-menu">
-		<view class="hmly-menu-item {{currentTab === index ? 'hmly-menu-item-active' : ''}}" wx:for="{{navTitle}}"
-			wx:key="index" data-index="{{index}}" bindtap="coverCheck">
-			{{item.title}}
-		</view>
-	</view>
-	<!-- 蒙板 -->
-	<view class="hmly-cover" bindtap="closeCover"></view>
-</block>
-<block>
-	<view class="hmly-top-nav">
-		<scroll-view class="hmly-scroll-wrapper" scroll-x scroll-with-animation="true"
-			scroll-into-view="item{{currentTab < 4 ? 0 : currentTab - 3}}" catchtouchmove="preventTouchMove">
-			<view class="hmly-navigate-item" id="item{{index}}" wx:for="{{navTitle}}" wx:key="index" data-index="{{index}}"
-				bindtap="handleClick">
-				<view class="hmly-names {{currentTab === index ? 'active' : ''}}">{{item.title}}</view>
-				<view class="hmly-currtline {{currentTab === index ? 'active' : ''}}"></view>
-			</view>
-		</scroll-view>
-		<!-- 下拉按钮 -->
-		<view class="hmly-pull-down" bindtap="pullDown">
-			<view class="icon-right"></view>
-		</view>
-	</view>
-	<!-- 对应的内容区 -->
-	<view class="hmly-content-item" wx:for="{{list}}" wx:key="index">
-		<view class="hmly-index-number">
-			<view>{{index > 10 ? index : '0'+(index+1)}}</view>
-		</view>
-		<image src="{{item.albumCoverUrl290}}"></image>
-		<view class="hmly-content-left">
-			<view class="hmly-content-title">{{item.title}}</view>
-			<view class="hmly-content-text">{{item.trackTitle}}</view>
-			<view class="hmly-count">
-				<view style="margin-right:25rpx;">
-					<!-- 本例中33.2亿的单位是写死的，此处应该是后端返回数据吧 -->
-					<text class="icon-video"></text>
-					<text class="">33.2亿</text>
-				</view>
-				<view>
-					<text class="icon"></text>
-					<text class="">44集</text>
-				</view>
+<!-- pages/index/bangdan/bangdan.wxml -->
+<view class="page-wrapper theme-{{theme}}">
+	<!-- 顶部弹出菜单 (蒙板内容) -->
+	<block wx:if="{{showCover}}">
+		<!-- 修改点：菜单背景适配 -->
+		<view class="hmly-menu" style="background-color: var(--bg-color);">
+			<view 
+				class="hmly-menu-item {{currentTab === index ? 'hmly-menu-item-active' : ''}}" 
+				style="color: {{currentTab === index ? '#ff520f' : 'var(--text-main)'}};"
+				wx:for="{{navTitle}}" wx:key="index" data-index="{{index}}" bindtap="coverCheck"
+			>
+				{{item.title}}
 			</view>
 		</view>
-	</view>
-</block>
+		<!-- 蒙板背景 (通常保持半透明黑) -->
+		<view class="hmly-cover" bindtap="closeCover"></view>
+	</block>
+
+	<!-- 主体内容 -->
+	<block>
+		<!-- 顶部导航栏 -->
+		<view class="hmly-top-nav" style="background-color: var(--bg-color); border-bottom: 1rpx solid var(--border-color);">
+			<scroll-view class="hmly-scroll-wrapper" scroll-x scroll-with-animation="true"
+				scroll-into-view="item{{currentTab < 4 ? 0 : currentTab - 3}}">
+				<view class="hmly-navigate-item" id="item{{index}}" wx:for="{{navTitle}}" wx:key="index" data-index="{{index}}" bindtap="handleClick">
+					<!-- 修改点：文字颜色变量 -->
+					<view class="hmly-names {{currentTab === index ? 'active' : ''}}" style="color: {{currentTab === index ? '#ff520f' : 'var(--text-gray)'}};">
+						{{item.title}}
+					</view>
+					<view class="hmly-currtline {{currentTab === index ? 'active' : ''}}"></view>
+				</view>
+			</scroll-view>
+			<!-- 下拉按钮背景适配 -->
+			<view class="hmly-pull-down" bindtap="pullDown" style="background-color: var(--bg-color);">
+				<view class="icon-right" style="color: var(--text-gray);"></view>
+			</view>
+		</view>
+
+		<!-- 对应的内容列表 -->
+		<!-- 修改点：列表项背景和分割线适配 -->
+		<view class="hmly-content-item" wx:for="{{list}}" wx:key="index" style="background-color: var(--bg-color); border-bottom: 1rpx solid var(--border-color);">
+			<!-- 序号颜色适配 -->
+			<view class="hmly-index-number" style="color: var(--text-gray);">
+				<view>{{index >= 9 ? (index+1) : '0'+(index+1)}}</view>
+			</view>
+			
+			<image src="{{item.albumCoverUrl290}}" style="border-radius: 10rpx;"></image>
+			
+			<view class="hmly-content-left">
+				<!-- 修改点：主标题颜色变量 -->
+				<view class="hmly-content-title" style="color: var(--text-main);">{{item.title}}</view>
+				<!-- 修改点：副标题颜色变量 -->
+				<view class="hmly-content-text" style="color: var(--text-gray);">{{item.trackTitle}}</view>
+				
+				<!-- 底部统计数据 -->
+				<view class="hmly-count" style="color: var(--text-gray);">
+					<view style="margin-right:25rpx;">
+						<text class="icon-video"></text>
+						<text style="margin-left: 10rpx;">33.2亿</text>
+					</view>
+					<view>
+						<text class="icon-list"></text>
+						<text style="margin-left: 10rpx;">44集</text>
+					</view>
+				</view>
+			</view>
+		</view>
+	</block>
+	
+	<!-- 底部留白 -->
+	<view style="height: 50rpx; background-color: var(--bg-color);"></view>
+</view>
