@@ -1,4 +1,7 @@
 Component({
+	options: {
+		addGlobalClass: true
+	},
 	properties: {
 		title: {
 			type: String,
@@ -17,6 +20,11 @@ Component({
         // 页面传参
         url: '/pages/details/details?url=' + url + '&title=' + title,
       })
-    }
+    },
+		gotoMore() {
+			wx.switchTab({
+				url: '/pages/classification/classification'
+			});
+		}
 	},
 });

@@ -4,13 +4,13 @@ const app = getApp()
 Page({
 	data: {
 		// 【新增】主题字段，默认从全局获取
-		theme: 'light', 
+		theme: 'light',
 		timeout: [
 			{ text: "不开启" },
-			{ text: "播放当前声音关闭" },
-			{ text: "播放2首声音关闭" },
-			{ text: "播放3首声音关闭" },
-			{ text: "播放4首声音关闭" },
+			{ text: "播放当前视频关闭" },
+			{ text: "播放2段视频关闭" },
+			{ text: "播放3段视频关闭" },
+			{ text: "播放4段视频关闭" },
 			{ text: "10分钟后" },
 			{ text: "20分钟后" },
 			{ text: "30分钟后" },
@@ -39,7 +39,7 @@ Page({
 			}
 		})
 	},
-	
+
 	onShow() {
 		const that = this;
 
@@ -97,7 +97,7 @@ Page({
 		this.setData({
 			avatarUrl: avatarUrl
 		});
-		
+
 		if (this.data.login) {
 			this.updateUserInfoCache();
 		}
@@ -105,7 +105,7 @@ Page({
 
 	// 【步骤2核心】表单提交，执行登录逻辑
 	onSubmitLogin(e) {
-		const nickName = e.detail.value.nickname; 
+		const nickName = e.detail.value.nickname;
 		const avatarUrl = this.data.avatarUrl;
 
 		if (!avatarUrl) {
@@ -125,7 +125,7 @@ Page({
 			key: "userinfo",
 			data: JSON.stringify(userInfo)
 		})
-		
+
 		this.setData({
 			login: true,
 			nickName: nickName

@@ -4,7 +4,7 @@
 		<view class="hmly-content_">
 			<!-- 提示标语 -->
 			<view class="hmly-slogn" style="color: var(--text-gray);">
-				登录后即可收听你的收藏专辑哦
+				登录后即可查看你的收藏视频哦
 			</view>
 			
 			<!-- 表单输入部分 -->

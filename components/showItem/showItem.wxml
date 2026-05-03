@@ -1,7 +1,7 @@
 <view class="hmly-content-list">
   <view class="hmly-bar-title">
     <view class="hmly-title-left">{{title}}</view>
-    <view class="hmly-title-right">查看全部<text class="icon-right"></text></view>
+    <view class="hmly-title-right" bindtap="gotoMore">查看全部<text class="icon-right"></text></view>
   </view>
   <block wx:for="{{showList}}" wx:key="index">
     <view 
@@ -20,7 +20,7 @@
         </view>
         <view class="hmly-count">
           <view class="hmly-play-count">
-            126亿
+            1.26万
           </view>
           <view class="hmly-ji-count">{{item.tracks}}集</view>
         </view>

@@ -9,7 +9,12 @@ Page({
 			'/image/swiper/ad1.jpg',
 			// ... 其他图片
 		],
-		// ... 其他原有 data
+		navList: [
+			{ icon: '/image/nav-icon/bangdan.png', events: 'goToBangDan', text: '榜单' },
+			{ icon: '/image/nav-icon/gushi.png', events: 'gotoDetails', text: '看剧目' },
+			{ icon: '/image/nav-icon/diantai.png', events: 'gotoDetails', text: '学舞蹈' },
+			{ icon: '/image/nav-icon/xiaoshuo.png', events: 'goToPose', text: '姿态识别' }
+		],
 		swiperCurrent: 0,
 	},
 
@@ -44,7 +49,29 @@ Page({
 		}
 	},
 
-	// 原有方法保持不变 (swiperChange, goToBangDan, gotoDetails, onShareAppMessage 等)
+	// 补充之前丢失的方法
+	goToBangDan: function() {
+		wx.navigateTo({
+			url: '/pages/index/bangdan/bangdan'
+		})
+	},
+	gotoMore: function() {
+		wx.switchTab({
+			url: '/pages/classification/classification'
+		});
+	},
+	gotoDetails: function(e) {
+		const url = e.currentTarget.dataset.coverimg || '';
+		const title = e.currentTarget.dataset.title || '';
+		wx.navigateTo({
+			url: '/pages/details/details?url=' + url + '&title=' + title
+		})
+	},
+	goToPose: function() {
+		wx.navigateTo({
+			url: '/pages/pose/pose'
+		})
+	},
 	swiperChange: function (e) {
 		this.setData({ swiperCurrent: e.detail.current })
 	},

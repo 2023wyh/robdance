@@ -30,7 +30,7 @@
 	<view class="hmly-like">
 		<view class="hmly-bar-title">
 			<view class="hmly-title-left" style="color: var(--text-main);">猜你喜欢</view>
-			<view class="hmly-title-right" style="color: var(--text-gray);">查看全部 <text class="icon-right"></text> </view>
+			<view class="hmly-title-right" style="color: var(--text-gray);" bindtap="gotoMore">查看全部 <text class="icon-right"></text> </view>
 		</view>
 		<view class="hmly-like-item-box">
 			<view class="hmly-like-item" bindtap="gotoDetails" data-coverImg="{{item.coverMiddle}}" data-title="{{item.intro}}" wx:for="{{guess}}" wx:key="index">
@@ -49,9 +49,9 @@
 	<!-- 有数据的时候显示 -->
 	<block wx:if="{{showitem}}">
 		<!-- 修改点：如果 showItem 组件内部没有使用全局变量，建议也传入 theme -->
-		<showItem title="有声小说" showList="{{xiaoshuocontent}}" theme="{{theme}}"></showItem>
-		<showItem title="相声评书" showList="{{xiangshengcontent}}" theme="{{theme}}"></showItem>
-		<showItem title="脱口秀" showList="{{tuokocontent}}" theme="{{theme}}"></showItem>
+		<showItem title="舞蹈剧目" showList="{{xiaoshuocontent}}" theme="{{theme}}"></showItem>
+		<showItem title="分解动作" showList="{{xiangshengcontent}}" theme="{{theme}}"></showItem>
+		<showItem title="非遗展示" showList="{{tuokocontent}}" theme="{{theme}}"></showItem>
 	</block>
 
 	<block wx:else>

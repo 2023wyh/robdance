@@ -1,156 +1,156 @@
 const ificationContent = [
   {
-    title:"有声书",
+    title:"舞种分类",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"古典舞"},
+      {text:"民间舞"},
+      {text:"芭蕾舞"},
+      {text:"现代舞"},
+      {text:"当代舞"},
+      {text:"汉唐古典"}
     ]
   },
   {
-    title:"畅销书",
+    title:"课程分类",
     content:[
-      {text:"社科"},
-      {text:"经管"},
-      {text:"文学"},
-      {text:"励志"},
-      {text:"名著"},
-      {text:"生活"}
+      {text:"剧目教学"},
+      {text:"基础训练"},
+      {text:"技巧强化"},
+      {text:"身韵组合"},
+      {text:"毯子功"},
+      {text:"把杆练习"}
     ]
   },
   {
-    title:"儿童",
+    title:"非遗舞蹈",
     content:[
-      {text:"故事"},
-      {text:"儿歌"},
-      {text:"动画"},
-      {text:"科普"},
-      {text:"名著"},
-      {text:"国学"}
+      {text:"猫蝶富贵"},
+      {text:"英歌舞"},
+      {text:"安塞腰鼓"},
+      {text:"木卡姆"},
+      {text:"海阳大秧歌"},
+      {text:"苗族芦笙"}
     ]
   },
   {
-    title:"相声评书",
+    title:"赛事赏析",
     content:[
-      {text:"单田芳"},
-      {text:"郭德纲"},
-      {text:"热门相声"},
-      {text:"单口相声"},
-      {text:"名家评书"},
-      {text:"新锐笑将"}
+      {text:"桃李杯"},
+      {text:"荷花奖"},
+      {text:"群星奖"},
+      {text:"CCTV舞蹈"},
+      {text:"舞蹈风暴"},
+      {text:"国际比赛"}
     ]
   },
   {
-    title:"情感生活",
+    title:"少儿舞蹈",
     content:[
-      {text:"恋爱技巧"},
-      {text:"睡前夜话"},
-      {text:"情绪压力"},
-      {text:"婚姻家庭"},
-      {text:"个人成长"},
-      {text:"心理健康"}
+      {text:"考级教程"},
+      {text:"启蒙律动"},
+      {text:"儿童剧目"},
+      {text:"基本功"},
+      {text:"亲子舞蹈"},
+      {text:"芭蕾形体"}
     ]
   },
   {
-    title:"人文",
+    title:"艺考专区",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"剧目精选"},
+      {text:"技巧组合"},
+      {text:"即兴表演"},
+      {text:"素质测试"},
+      {text:"模拟联考"},
+      {text:"名校真题"}
     ]
   },
   {
-    title:"历史",
+    title:"大众健身",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"广场舞"},
+      {text:"有氧舞蹈"},
+      {text:"尊巴"},
+      {text:"爵士舞"},
+      {text:"形体芭蕾"},
+      {text:"东方舞"}
     ]
   },
   {
-    title:"国学书院",
+    title:"名师课堂",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"唐诗逸"},
+      {text:"朱洁静"},
+      {text:"胡沈员"},
+      {text:"李艳超"},
+      {text:"黄豆豆"},
+      {text:"杨丽萍"}
     ]
   },
   {
-    title:"音乐",
+    title:"街舞潮流",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"Hip-hop"},
+      {text:"Popping"},
+      {text:"Locking"},
+      {text:"Breaking"},
+      {text:"Urban"},
+      {text:"Jazz"}
     ]
   },
   {
-    title:"英语",
+    title:"舞蹈理论",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"中外舞史"},
+      {text:"舞蹈概论"},
+      {text:"作品分析"},
+      {text:"编导技法"},
+      {text:"解剖学"},
+      {text:"教育学"}
     ]
   },
   {
-    title:"教育培训",
+    title:"动作识别",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"AI测评"},
+      {text:"姿态对比"},
+      {text:"骨骼点"},
+      {text:"智能打分"},
+      {text:"误差分析"},
+      {text:"报告生成"}
     ]
   },
   {
-    title:"健康养生",
+    title:"服化道",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"演出服饰"},
+      {text:"舞台妆容"},
+      {text:"道具制作"},
+      {text:"灯光设计"},
+      {text:"舞美布景"},
+      {text:"音乐剪辑"}
     ]
   },
   {
-    title:"广播剧",
+    title:"机构入驻",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"北京舞院"},
+      {text:"民大舞蹈"},
+      {text:"军艺"},
+      {text:"上戏舞蹈"},
+      {text:"南艺"},
+      {text:"地方舞团"}
     ]
   },
   {
-    title:"戏曲",
+    title:"线下研习",
     content:[
-      {text:"言情"},
-      {text:"悬疑"},
-      {text:"都市"},
-      {text:"幻想"},
-      {text:"武侠"},
-      {text:"历史"}
+      {text:"猫蝶富贵"},
+      {text:"大师班"},
+      {text:"集训营"},
+      {text:"剧目排练"},
+      {text:"师资培训"},
+      {text:"采风体验"}
     ]
   },
 ]

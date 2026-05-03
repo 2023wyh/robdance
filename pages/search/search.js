@@ -6,12 +6,12 @@ Page({
 		theme: 'light', // 【新增】
 		searchHistory: [],
 		hotData: [
-			{ title: "宝宝巴士", icon: "icon-jiantouUp", color: "text-orange" },
-			{ title: "孟鹤堂", icon: "icon-jiantouUp", color: "text-red" },
-			{ title: "三体", icon: "icon-jiantouDown", color: "text-green" },
-			{ title: "龙王殿", icon: "icon-jiantouUp", color: "text-red" },
-			{ title: "儿童恐龙故事", icon: "icon-jiantouDown", color: "text-red" },
-			{ title: "儿童版三国演义", icon: "icon-jiantouUp", color: "text-red" },
+			{ title: "猫蝶富贵", icon: "icon-jiantouUp", color: "text-red" },
+			{ title: "古典舞身韵", icon: "icon-jiantouUp", color: "text-orange" },
+			{ title: "少儿考级组合", icon: "icon-jiantouDown", color: "text-green" },
+			{ title: "艺考舞蹈技巧", icon: "icon-jiantouUp", color: "text-red" },
+			{ title: "桃李杯剧目", icon: "icon-jiantouDown", color: "text-red" },
+			{ title: "非遗文化舞蹈", icon: "icon-jiantouUp", color: "text-red" },
 		]
 	},
 

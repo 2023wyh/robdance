@@ -1,0 +1,71 @@
+<view class="container">
+  <!-- 头部信息 -->
+  <view class="header">
+    <text class="title">AI 动作姿态识别</text>
+    <text class="subtitle">上传图片或视频，即可分析您的动作标准度</text>
+  </view>
+
+  <!-- 上传及预览区 -->
+  <view class="media-preview-container" bindtap="chooseMedia">
+    <block wx:if="{{!mediaPath}}">
+      <view class="upload-placeholder">
+        <view class="icon-camera"></view>
+        <text>点击此处拍摄/选取</text>
+        <text class="tip-text">支持上传图片或视频</text>
+      </view>
+    </block>
+    <block wx:else>
+      <image wx:if="{{mediaType === 'image'}}" src="{{mediaPath}}" mode="aspectFit" class="preview-media"></image>
+      <video wx:elif="{{mediaType === 'video'}}" src="{{mediaPath}}" class="preview-media" controls></video>
+      
+      <!-- 骨架绘制层 -->
+      <canvas type="2d" id="skeletonCanvas" class="skeleton-canvas" wx:if="{{recognizeResult}}"></canvas>
+
+      <!-- 重新选择按钮 -->
+      <view class="reselect-btn" catchtap="chooseMedia">重新选择</view>
+    </block>
+  </view>
+
+  <!-- 识别结果区 -->
+  <view class="result-container" wx:if="{{recognizeResult}}">
+    <view class="result-header">
+      <text class="result-title">动作分析结果</text>
+      <view class="score-box">
+        <text class="score-number">{{recognizeResult.score}}</text>
+        <text class="score-unit">分</text>
+      </view>
+    </view>
+    <view class="result-content">
+      <view class="result-item">
+        <text class="item-label">姿势标准度：</text>
+        <text class="item-value">{{recognizeResult.postureLevel}}</text>
+      </view>
+      <view class="result-item">
+        <text class="item-label">四肢协调性：</text>
+        <text class="item-value">{{recognizeResult.coordination}}</text>
+      </view>
+
+      <!-- 新增：详细关节分析 -->
+      <view class="detail-analysis" wx:if="{{recognizeResult.jointsAnalysis && recognizeResult.jointsAnalysis.length > 0}}">
+        <text class="detail-title">详细关节诊断</text>
+        <view class="detail-list">
+          <view class="detail-item" wx:for="{{recognizeResult.jointsAnalysis}}" wx:key="index">
+            <text class="detail-name">{{item.name}}：</text>
+            <text class="detail-status {{item.status === '标准' ? 'status-good' : 'status-bad'}}">{{item.status}}</text>
+            <text class="detail-desc">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="result-suggestion">
+        <text class="suggestion-title">AI总体建议：</text>
+        <text class="suggestion-text">{{recognizeResult.suggestion}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作按钮 -->
+  <view class="footer-action">
+    <button class="action-btn {{!mediaPath ? 'disabled' : ''}}" bindtap="startRecognize">开始识别</button>
+  </view>
+</view>

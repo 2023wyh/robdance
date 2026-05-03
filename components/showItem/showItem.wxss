@@ -4,6 +4,23 @@
 	margin-top: 10rpx;
 }
 
+.hmly-bar-title {
+	width: 100%;
+	height: 56rpx;
+	padding: 20rpx 0rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.hmly-title-left {
+	font-size: 37rpx;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-weight: 800;
+	color: #333;
+}
+
+
 .hmly-content {
 	width: 100%;
 	height: auto;
@@ -88,7 +105,6 @@
 }
 
 .hmly-title-right {
-	float: right;
 	font-size: 26rpx;
 	color: #aaa;
 }

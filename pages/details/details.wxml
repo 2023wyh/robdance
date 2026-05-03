@@ -27,18 +27,18 @@
 		</view>
 	</view>
 
-	<!-- 节目列表部分 (这部分需要严格适配夜间模式) -->
+	<!-- 视频列表部分 (这部分需要严格适配夜间模式) -->
 	<view class="hmly-performance" style="background-color: var(--bg-color);">
 		<!-- 选项卡 -->
 		<view class="hmly-selectbar" style="border-bottom: 1rpx solid var(--border-color);">
 			<view class="hmly-detail" style="color: var(--text-gray);">详情</view>
-			<view class="hmly-list hmly-active">节目<text style="margin-left:10rpx">152</text></view>
+			<view class="hmly-list hmly-active">视频<text style="margin-left:10rpx">152</text></view>
 		</view>
 
 		<!-- 播放全部栏 -->
 		<view class="hmly-play" style="background-color: var(--bg-color);">
 			<view class="hmly-play-all" style="color: var(--text-main);">
-				<text class="icon-video" style="color: #ff520f;"></text> 播放全部
+				<text class="icon-video" style="color: #ff520f;"></text> 全部播放
 			</view>
 			<view class="hmly-play-select" style="color: var(--text-gray);">
 				<view style="margin-right:20rpx"><text class="icon-order"></text> 正序</view>
@@ -46,11 +46,11 @@
 			</view>
 		</view>
 
-		<!-- 节目列表循环 -->
+		<!-- 视频列表循环 -->
 		<view class="hmly-performance-content" wx:for="{{performance}}" wx:key="index" style="border-bottom: 1rpx solid var(--border-color);">
 			<!-- 序号 -->
 			<view class="hmly-performance-index" style="color: var(--text-gray);">{{index+1}}</view>
-			<!-- 节目标题信息 -->
+			<!-- 视频标题信息 -->
 			<view class="hmly-performance-info">
 				<view class="hmly-performance-info-top">
 					<view style="font-size:33rpx; color: var(--text-main);">{{item.name}}</view>

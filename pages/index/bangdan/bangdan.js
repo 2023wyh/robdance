@@ -9,14 +9,14 @@ Page({
 		showCover: false,
 		currentTab: 0,
 		navTitle: [
-			{ title: '经典必听' },
-			{ title: '优质专辑' },
-			{ title: '有声小说' },
-			{ title: '儿童教育' },
-			{ title: '人文历史' },
-			{ title: '最潮外语' },
-			{ title: '商业财经' },
-			{ title: '热门新闻' }
+			{ title: '经典必学' },
+			{ title: '优质教程' },
+			{ title: '经典剧目' },
+			{ title: '基础训练' },
+			{ title: '舞蹈历史' },
+			{ title: '名师解析' },
+			{ title: '非遗剧目' },
+			{ title: '热门动态' },
 		],
 		list: [] // 初始化一下 list
 	},

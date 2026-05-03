@@ -5,7 +5,7 @@
 		<view class="hmly-search-left" style="background-color: var(--bg-secondary);">
 			<text class="icon-search" style="color: var(--text-gray);"></text>
 			<input 
-				placeholder="搜索你想听的节目" 
+				placeholder="搜索你想学的舞蹈" 
 				placeholder-class="hmly-place" 
 				bindconfirm="search" 
 				style="color: var(--text-main);"
